@@ -17,7 +17,7 @@ def sampling(src="source/img/bear.png", dst="source/img/bear_blurred.png"):
     # 显示图像 这一步至少4s
     img = Image.fromarray(img_sampled)
     # img.show(img)  # 100*100图
-    img.save(dst)
+    # img.save(dst)
     return img_sampled
 
 
@@ -98,15 +98,16 @@ def Laplacian_matrix(
     x_min = x_min / math.sqrt(np.dot(x_min, x_min))
     # x_max = x_max / math.sqrt(np.dot(x_max, x_max))
     # 显示投影强度
-    img_projection = np.zeros((w, h))
-    for i in range(w):
-        for j in range(h):
-            img_projection[i, j] = 10000000 * (x_min[i * h + j] ** 2)
+    img_projection = similarity_graph @ x_min
+    # for i in range(w):
+    #     for j in range(h):
+    #         img_projection[i, j] = 10000000 * (x_min[i * h + j] ** 2)
+    img_projection = 
     # print(img_projection)
     # print(x_min)
-    # img = Image.fromarray(img_projection)
-    # img.show(img)
-    cv2.imwrite(dst, img_projection)
+    img = Image.fromarray(img_projection)
+    img.show(img)
+    # cv2.imwrite(dst, img_projection)
     return x_min
 
 
@@ -140,7 +141,7 @@ def kmeans(x, w, h, dst="source/img/bear_seg.png"):
         m2 = m2_next / count2
     img = Image.fromarray(cluster)
     # img.show(img)
-    cv2.imwrite(dst, cluster)
+    # cv2.imwrite(dst, cluster)
 
 
 if __name__ == "__main__":
