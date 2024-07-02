@@ -7,10 +7,11 @@ import time
 
 
 # 问题1：采样
-def sampling(src="source/img/bear.png", dst="source/img/bear_blurred.png"):
+def sampling(src="source/img/bear.png", dst="source/img/shuttle_blurred.png"):
     # 读取png文件
     img = cv2.imread(src)
     # 应用高斯模糊 要调
+    # img_blurred = cv2.GaussianBlur(img, (7, 7), 3)  # 消除环境光?！！！！！！不然熊右上角是黑的呜呜呜呜-_-
     img_blurred = cv2.GaussianBlur(img, (11, 11), 11)  # 消除环境光?！！！！！！不然熊右上角是黑的呜呜呜呜-_-
     # 创建100x100图像
     img_sampled = cv2.resize(img_blurred, (100, 100))
@@ -53,13 +54,14 @@ def similarity_graph(img_sampled, w, h):
                         -4 * (np.dot(distances, distances) + ((i - k) / w) ** 2 + ((j - l) / h) ** 2)
                     )
                     # 设置阈值t=0.5
-                    # if s > 0.1:
+                    # if s > 0.9:
                     # 记录coo_matrix数据
                     S.append(s)
                     row.append(i * h + j)  # i=row//h, j=row%h
                     col.append(k * h + l)
                     count += 1
-                    d += 1
+                    # d += 1  # 这个sheep效果好，bear杂点比较多，shuttle比较好，但是这个要求高斯模糊开的高
+                    d += s  # 这个bear比+1效果好
             if d != 0:
                 D.append(math.pow(d, -0.5))  # 便于后续归一化
             else:
@@ -96,15 +98,20 @@ def Laplacian_matrix(
         x_min = L_R * x_min
         # x_max = L * x_max
     x_min = x_min / math.sqrt(np.dot(x_min, x_min))
+    # x_max = np.random.choice([1, -1], size=w * h) - np.dot(x_min, x_max) * x_min
+    # for i in range(k):
+    #     x_max = L_R * x_max
     # x_max = x_max / math.sqrt(np.dot(x_max, x_max))
     # 显示投影强度
-    img_projection = similarity_graph @ x_min
-    # for i in range(w):
-    #     for j in range(h):
-    #         img_projection[i, j] = 10000000 * (x_min[i * h + j] ** 2)
-    img_projection = 
-    # print(img_projection)
-    # print(x_min)
+    # x_min = similarity_graph @ x_min  # 做投影？？？会形成一个轮廓，不对，只是放大或缩小了x_min
+    # x_max = similarity_graph @ x_max  # 做投影？？？会形成一个轮廓
+    img_projection = np.zeros((w, h))
+    for i in range(w):
+        for j in range(h):
+            img_projection[i, j] = 5000000 * (x_min[i * h + j] ** 2)
+            # img_projection[i, j] = 10000000 * (x_max[i * h + j] ** 2 + x_min[i * h + j] ** 2)
+
+    print(img_projection)
     img = Image.fromarray(img_projection)
     img.show(img)
     # cv2.imwrite(dst, img_projection)
@@ -115,7 +122,7 @@ def kmeans(x, w, h, dst="source/img/bear_seg.png"):
     x = 10000 * x
     cluster = np.zeros((w, h))
     # print(x)
-    k = 30
+    k = 10
     m1 = x[0]
     m2 = x[w // 2 * h + h // 2]
 
@@ -134,13 +141,10 @@ def kmeans(x, w, h, dst="source/img/bear_seg.png"):
                     cluster[i, j] = 0
                     m2_next += x[i * h + j]
                     count2 += 1
-        # print("m1:", m1, ";", "m2:", m2)
-        # img = Image.fromarray(cluster)
-        # img.show(img)
         m1 = m1_next / count1
         m2 = m2_next / count2
     img = Image.fromarray(cluster)
-    # img.show(img)
+    img.show(img)
     # cv2.imwrite(dst, cluster)
 
 
