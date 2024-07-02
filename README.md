@@ -154,18 +154,18 @@ def kmeans(x, w, h):
 
 - bear：
 
-  ![bear原图](../img/bear.png)
+  ![bear原图](/img/bear.png)
   
-  ![bear高斯模糊](../img/bear_blurred.png)![bear向量投影](../img/bear_projection.png)![bear](../img/bear_seg.png)
+  ![bear高斯模糊](/img/bear_blurred.png)![bear向量投影](/img/bear_projection.png)![bear](/img/bear_seg.png)
 
 - sheep：
 
-  ![sheep原图](../img/sheep.png)
+  ![sheep原图](/img/sheep.png)
   
-  ![sheep高斯模糊](../img/sheep_blurred.png)![sheep向量投影](../img/sheep_projection.png)![sheep](../img/sheep_seg.png)
+  ![sheep高斯模糊](/img/sheep_blurred.png)![sheep向量投影](/img/sheep_projection.png)![sheep](/img/sheep_seg.png)
 
 - shuttle：
 
-  ![shuttle原图](../img/shuttle.png)
+  ![shuttle原图](/img/shuttle.png)
 
-  ![shuttle高斯模糊](../img/shuttle_blurred.png)![shuttle向量投影](../img/shuttle_projection.png)![shuttle](../img/shuttle_seg.png)
+  ![shuttle高斯模糊](/img/shuttle_blurred.png)![shuttle向量投影](/img/shuttle_projection.png)![shuttle](/img/shuttle_seg.png)
