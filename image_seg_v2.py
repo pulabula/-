@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 
 
 # 问题1：采样
-def sampling(src="source/img/bear.png", dst="source/img/bear_blurred.png"):
+def sampling(src="source/img/shuttle.png", dst="source/img/shuttle_blurred.png"):
     # 读取png文件
     img = cv2.imread(src)
     # 应用高斯模糊 要调
@@ -67,8 +67,8 @@ def similarity_graph(img_sampled, w, h):
                     row.append(i * h + j)  # i=row//h, j=row%h
                     col.append(k * h + l)
                     count += 1
-                    # d += 1  # 这个sheep效果好，bear杂点比较多，shuttle比较好，但是这个要求高斯模糊开的高
-                    d += s  # 这个bear比+1效果好
+                    # d += 1  # 这个shuttle效果好，shuttle杂点比较多，shuttle比较好，但是这个要求高斯模糊开的高
+                    d += s  # 这个shuttle比+1效果好
             if d != 0:
                 D.append(math.pow(d, -0.5))  # 便于后续归一化
             else:
@@ -89,7 +89,7 @@ def similarity_graph(img_sampled, w, h):
 
 
 def Laplacian_matrix(
-    similarity_graph, degree_matrix, x_d, img_sampled, w, h, dst="source/img/bear_projection.png"
+    similarity_graph, degree_matrix, x_d, img_sampled, w, h, dst="source/img/shuttle_projection.png"
 ):
     # 计算Laplacian_matrix
     I = sparse.eye(w * h)
@@ -132,7 +132,7 @@ def Laplacian_matrix(
     return x_min
 
 
-def kmeans(x, x_d, w, h, dst="source/img/bear_seg.png"):
+def kmeans(x, x_d, w, h, dst="source/img/shuttle_seg.png"):
     # x = x
     cluster = np.zeros((w, h))
     # print(x)
@@ -186,10 +186,10 @@ def kmeans(x, x_d, w, h, dst="source/img/bear_seg.png"):
 
 
 if __name__ == "__main__":
-    src = "img/bear.png"
-    dst1 = "img/bear.png_blurred.png"
-    dst2 = "img/bear.png_projection.png"
-    dst3 = "img/bear.png_seg.png"
+    src = "img/shuttle.png"
+    dst1 = "img/shuttle.png_blurred.png"
+    dst2 = "img/shuttle.png_projection.png"
+    dst3 = "img/shuttle.png_seg.png"
 
     # 开始时间
     start_time = time.perf_counter()
